@@ -15,7 +15,8 @@ def createMap():
 
 def makeNode(i,j):
     #Use the neato lasers to find the corner type
-    cornertype = """get the corner type"""
+    cornertype = getCorner()
+    tank(0,0)
     if cornertype is cross:
         world[i][j].count = 4
         if world[i+1][j]!=previous
@@ -51,13 +52,19 @@ def makeNode(i,j):
     if cornertype is deadend:
         world[i][j].count = 1
         world[i][j] = Node(1)
+ tank(50,50)
+ 
+def getCorner():
+    
+ 
 def expandMap():
+
+def move(i,j):
+    
     
 def main():
-    if (len(sys.args) > 1):
-        d["Initial Facing"] = sys.args[1]    
-    else 
-        d["Initial Facing"] = North
+        d["Facing"] = North
+       
 
     createMap()
 if __name__ == "__main__":
