@@ -1,9 +1,11 @@
 import sys
-
-global d = {}
+import rospy
+from std_msgs.msg import String
+global d
 maplength = 5
 world = [[Node() for x in xrange(maplength)] for x in xrange(maplength)] 
-unvisited = [()]
+unvisited = []
+
 
 def createMap():
     #Setup the first Node
@@ -15,47 +17,22 @@ def createMap():
 
 def makeNode(i,j):
     #Use the neato lasers to find the corner type
-    cornertype = getCorner()
-    tank(0,0)
-    if cornertype is cross:
-        world[i][j].count = 4
-        if world[i+1][j]!=previous
-            world[i+1][j] = Node(1)
-        if world[i-1][j]!=previous
-            world[i-1][j] = Node(1)
-        if world[i][j+1]!=previous
-            world[i][j+1] = Node(1)
-        if world[i][j-1]!=previous
-            world[i][j-1] = Node(1)
-    if cornertype is l1:
+    if d.cornerType = "D"
+        world[i][j].count = 1 
+        world[i][j].visited = True
+    elif d.cornerType = "ST"
         world[i][j].count = 2
-        if world[i][j+1] == previous
-            world[i][j+1]= Node(1)
-        if world[i][j-1] == previous
-            world[i][j-1]= Node(1)
-        world[i-1][j] = Node(1)
-    if cornertype is l2:
-        world[i][j].count = 2
-        if world[i][j+1] == previous
-            world[i][j+1]= Node(1)
-        if world[i][j-1] == previous
-            world[i][j-1]= Node(1)
-        world[i+1][j] = Node(1)
-    if cornertype is t:
-        world[i][j].count = 3
-        if world[i][j+1] == previous
-            world[i][j+1]= Node(1)
-        if world[i][j-1] == previous
-            world[i][j-1]= Node(1)
-        world[i-1][j] = Node(1)
-        wordl[i+1][j] = Node(1)
-    if cornertype is deadend:
-        world[i][j].count = 1
-        world[i][j] = Node(1)
- tank(50,50)
- 
-def getCorner():
+        world[i][j]
+    elif d.cornerType = "LR"
+    elif d.cornerType = "LL"
+    elif d.cornerType = "TU"
+    elif d.cornerType = "TL"
+    elif d.cornerType = "TR"
+    elif d.cornerType = "+"
     
+#Callback function 
+def getCorner(data):
+    d.cornerType = data.data 
  
 def expandMap():
 
@@ -63,9 +40,10 @@ def move(i,j):
     
     
 def main():
-        d["Facing"] = North
-       
-
+    d["Facing"] = North
+    rospy.init_node('map_maker')
+    rospy.Subscriber("hallwayType", String, getCorner)
+    
     createMap()
 if __name__ == "__main__":
     main()
