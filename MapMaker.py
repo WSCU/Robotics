@@ -8,6 +8,7 @@ unvisited = []
 
 
 def createMap():
+    global d
     #Setup the first Node
     makeNode(maplength/2,maplength/2)
     while (unvisited):
@@ -17,12 +18,13 @@ def createMap():
 
 def makeNode(i,j):
     #Use the neato lasers to find the corner type
+    global d
     if d.cornerType = "D"
         world[i][j].count = 1 
         world[i][j].visited = True
     elif d.cornerType = "ST"
         world[i][j].count = 2
-        world[i][j]
+        
     elif d.cornerType = "LR"
     elif d.cornerType = "LL"
     elif d.cornerType = "TU"
@@ -40,9 +42,10 @@ def move(i,j):
     
     
 def main():
-    d["Facing"] = North
+    d.facing = North
     rospy.init_node('map_maker')
     rospy.Subscriber("hallwayType", String, getCorner)
+    d.pub = rospy.Publisher("navCommand", NavCommand)
     
     createMap()
 if __name__ == "__main__":
