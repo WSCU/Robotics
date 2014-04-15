@@ -2,21 +2,21 @@ import sys
 import rospy
 from std_msgs.msg import String
 global d
-maplength = 5
-world = [[Node() for x in xrange(maplength)] for x in xrange(maplength)] 
-unvisited = []
-
+world = Tmap()
 
 def createMap():
     global d
     #Setup the first Node
-    makeNode(maplength/2,maplength/2)
     while (unvisited):
-        previous = current
-        current = unvisited.pop()
-        
+        next_node = Tmap.nextUnvisited(current)
+    #next = Tmap.nextUnvisited(current)
+    #generateCommands(current, next)
+    #wait for it to get to the next one
+    #create a node
+    #loop
 
-def makeNode(i,j):
+
+def makeNode(current):
     #Use the neato lasers to find the corner type
     global d
     if d.cornerType = "D"
@@ -36,10 +36,8 @@ def makeNode(i,j):
 def getCorner(data):
     d.cornerType = data.data 
  
-def expandMap():
-
-def move(i,j):
-    
+def move(start,end):
+    world.generateCommands(start, end)
     
 def main():
     d.facing = North

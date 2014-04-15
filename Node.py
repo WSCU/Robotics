@@ -238,6 +238,28 @@ output: a list of strings to be parsed as commands
             curr_type = current.type
 
         return commands, name_path
+    
+    def nextUnvisited(self, current):
+        nodes_to_check = deque() 
+        nodes_to_check.appendleft(self.findNode(current)
+        while len(nodes_to_check) > 0:
+            current = nodes_to_check.pop()
+            current.visited = True
+            if current.found == False
+                return current
+            neighbors_list = current.getNeighbors()
+            for n in neighbors_list:
+                if n != null and n.visited == False:
+                    if n.found == False:
+                        return n
+                    else:
+                        nodes_to_check.appendleft(n)
+                        n.visited = True
+                        n.parent = current
+        self.resetNodes()
+        return False
+                        
+        
 
 class TMapNode:
         """ individual node class for TMap """
@@ -251,6 +273,7 @@ class TMapNode:
             self.visited = False
             self.parent = None
             self.present = False
+            self.found = False
 
         def __repr__(self):
             """ returns the name and type of the node """
