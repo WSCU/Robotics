@@ -8,7 +8,12 @@ def createMap():
     global d
     #Setup the first Node
     while (unvisited):
-        next_node = Tmap.nextUnvisited(current)
+        next_node, unvisited = world.nextUnvisited(current)
+        if next_node is not None:
+            world.generateCommands(current ,next_node)
+            #wait for it to move
+            current = next_node
+            makeNode(current)
     #next = Tmap.nextUnvisited(current)
     #generateCommands(current, next)
     #wait for it to get to the next one
@@ -19,17 +24,21 @@ def createMap():
 def makeNode(current):
     #Use the neato lasers to find the corner type
     global d
+    
     if d.cornerType = "D"
-        world[i][j].count = 1 
-        world[i][j].visited = True
+    
     elif d.cornerType = "ST"
-        world[i][j].count = 2
-        
+    
     elif d.cornerType = "LR"
+    
     elif d.cornerType = "LL"
+    
     elif d.cornerType = "TU"
+    
     elif d.cornerType = "TL"
+    
     elif d.cornerType = "TR"
+    
     elif d.cornerType = "+"
     
 #Callback function 
