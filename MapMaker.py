@@ -1,5 +1,6 @@
 import sys
 import rospy
+from Node import *
 from std_msgs.msg import String
 global d
 world = Tmap()
@@ -10,7 +11,17 @@ def createMap():
     while (unvisited):
         next_node, unvisited = world.nextUnvisited(current)
         if next_node is not None:
-            world.generateCommands(current ,next_node)
+            commands = world.generateCommands(current, next_node)
+            #parse commands to get final facing direction after moving
+            for e in commands:
+                if e[0] == "L":
+                    d.facing = (d.facing - 1) % 4
+                elif e[0] == "R":
+                    d.facing = (d.facing + 1) % 4
+                elif e[0] == "TRND":
+                    d.facing = (d.facing - 2) % 4
+            #send the commands with the publisher
+            d.pub.publish(commands)
             #wait for it to move
             current = next_node
             makeNode(current)
@@ -26,7 +37,8 @@ def makeNode(current):
     global d
     
     if d.cornerType = "D"
-    
+        if d.facing == 0:
+            
     elif d.cornerType = "ST"
     
     elif d.cornerType = "LR"
@@ -56,4 +68,7 @@ def main():
     
     createMap()
 if __name__ == "__main__":
+    global d
+    d.nodeCount = 0
+    d.facing = sys.argv[1]
     main()
