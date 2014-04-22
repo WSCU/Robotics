@@ -34,57 +34,67 @@ def createMap():
 
 def makeNode(current):
     #Use the neato lasers to find the corner type
+    #TODO:
+    #we need to add checking for already found nodes, do this later
     global d
     
-    if d.cornerType = "D"
-        if d.facing == 0:
-            current.setSouth(TMapNode(d.nodeCount, "H"))
-        elif d.facing == 1:
-            current.setWest(TMapNode(d.nodeCount, "H"))
-        elif d.facing == 2:
-            current.setNorth(TMapNode(d.nodeCount, "H"))
-        elif d.facing == 3:
-            current.setEast(TmapNode(d.nodeCount, "H"))
+    if d.cornerType = "D":
+        pass
     elif d.cornerType = "ST"
         if d.facing == 0:
-            current.setSouth(TMapNode(d.nodeCount, "H"))
-            current.setNorth(TMapNode(d.nodeCount, "H"))
+            current.setNorth(TMapNode(nodeCount(), "H"))
         elif d.facing == 1:
-            current.setWest(TMapNode(d.nodeCount, "H"))
-            current.setEast(TMapNode(d.nodeCount, "H"))
+            current.setEast(TMapNode(nodeCount(), "H"))
         elif d.facing == 2:
-            current.setNorth(TMapNode(d.nodeCount, "H"))
-            current.setSouth(TMapNode(d.nodeCount, "H"))
+            current.South(TMapNode(nodeCount(), "H"))
         elif d.facing == 3:
-            current.setEast(TmapNode(d.nodeCount, "H"))
-            current.setWest(TMapNode(d.nodeCount, "H"))
+            current.setWest(TMapNode(nodeCount(), "H"))
     elif d.cornerType = "LR"
         if d.facing == 0:
-            current.setEast(TmapNode(d.nodeCount, "H"))
-            current.setSouth(TMapNode(d.nodeCount, "H"))
+            current.setEast(TmapNode(nodeCount(), "H"))
         elif d.facing == 2:
-            current.setNorth(TMapNode(d.nodeCount, "H"))
-            current.setEast(TmapNode(d.nodeCount, "H"))
+            current.setEast(TmapNode(nodeCount(), "H"))
         elif d.facing == 3:
-            current.setEast(TmapNode(d.nodeCount, "H"))
+            #TODO
     elif d.cornerType = "LL"
         if d.facing == 0:
-            current.setSouth(TMapNode(d.nodeCount, "H"))
-            current.setWest(TMapNode(d.nodeCount, "H"))
+            current.setWest(TMapNode(nodeCount(), "H"))
         elif d.facing == 1:
-            current.setWest(TMapNode(d.nodeCount, "H"))
+            current.setWest(TMapNode(nodeCount(), "H"))
         elif d.facing == 2:
-            current.setNorth(TMapNode(d.nodeCount, "H"))
-            current.setWest(TMapNode(d.nodeCount, "H"))
+            #TODO
     elif d.cornerType = "TU"
-         
-    
-    elif d.cornerType = "TL"
-    
+         if d.facing == 0 or d.facing == 2:
+            current.setEast(TMapNode(nodeCount(), "H"))
+            current.setWest(TMapNode(nodeCount(), "H"))
+        elif d.facing == 1:
+            current.setSouth(TMapNode(nodeCount(), "H"))
+            #TODO
+        elif d.facing == 3:
+            current.setSouth(TMapNode(nodeCount(), "H"))
+            #TODO
+    elif d.cornerType = "TL":
+        if d.facing == 3:
+            current.setNorth(TMapNode(nodeCount(), "H"))
+            current.setSouth(TMapNode(nodeCount(), "H"))
+        elif d.facing == 0:
+            current.setEast(TMapNode(nodeCount(), "H"))
+        elif d.facing == 2:
+            current.setEast(TMapNode(nodeCount(), "H"))
     elif d.cornerType = "TR"
-    
+        if d.facing == 1:
+            current.setNorth(TMapNode(nodeCount(), "H"))
+            current.setSouth(TMapNode(nodeCount(), "H"))
+        elif d.facing == 0:
+            current.setWest(TMapNode(nodeCount(), "H"))
+        elif d.facing == 2:
+            curretn.setWest(TmapNode(nodeCount(), "H"))
     elif d.cornerType = "+"
-    
+        
+def nodeCount():
+    global d    
+    d.nodeCount += 1;
+    return d.nodeCount -1;
 #Callback function 
 def getCorner(data):
     d.cornerType = data.data 
