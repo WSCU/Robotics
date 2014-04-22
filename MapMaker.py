@@ -46,12 +46,38 @@ def makeNode(current):
         elif d.facing == 3:
             current.setEast(TmapNode(d.nodeCount, "H"))
     elif d.cornerType = "ST"
-    
+        if d.facing == 0:
+            current.setSouth(TMapNode(d.nodeCount, "H"))
+            current.setNorth(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 1:
+            current.setWest(TMapNode(d.nodeCount, "H"))
+            current.setEast(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 2:
+            current.setNorth(TMapNode(d.nodeCount, "H"))
+            current.setSouth(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 3:
+            current.setEast(TmapNode(d.nodeCount, "H"))
+            current.setWest(TMapNode(d.nodeCount, "H"))
     elif d.cornerType = "LR"
-    
+        if d.facing == 0:
+            current.setEast(TmapNode(d.nodeCount, "H"))
+            current.setSouth(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 2:
+            current.setNorth(TMapNode(d.nodeCount, "H"))
+            current.setEast(TmapNode(d.nodeCount, "H"))
+        elif d.facing == 3:
+            current.setEast(TmapNode(d.nodeCount, "H"))
     elif d.cornerType = "LL"
-    
+        if d.facing == 0:
+            current.setSouth(TMapNode(d.nodeCount, "H"))
+            current.setWest(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 1:
+            current.setWest(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 2:
+            current.setNorth(TMapNode(d.nodeCount, "H"))
+            current.setWest(TMapNode(d.nodeCount, "H"))
     elif d.cornerType = "TU"
+         
     
     elif d.cornerType = "TL"
     
