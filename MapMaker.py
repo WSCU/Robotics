@@ -38,7 +38,13 @@ def makeNode(current):
     
     if d.cornerType = "D"
         if d.facing == 0:
-            
+            current.setSouth(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 1:
+            current.setWest(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 2:
+            current.setNorth(TMapNode(d.nodeCount, "H"))
+        elif d.facing == 3:
+            current.setEast(TmapNode(d.nodeCount, "H"))
     elif d.cornerType = "ST"
     
     elif d.cornerType = "LR"
