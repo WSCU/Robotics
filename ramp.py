@@ -136,6 +136,30 @@ def callback(data):
        #D.le._cf.commander.send_setpoint(0, 0, 0, 0)
        D.running = False 
        rospy.signal_shutdown("Quit requested")
+       
+    if m.count(" ")>0:
+        hpr,value=m.split(" ")
+        if(hpr=="pitch"):
+            pitch= int(value)
+        if(hpr=="yawrate"):
+            yawrate= int(value)
+        if(hpr=="roll"):
+            roll=int(value)
+        if(hpr=="thrust"):
+            thrust= int(value)
+        if thrust == 0:
+            thrust = 0
+        elif thrust <= 10000:
+            thrust = 10001
+        elif thrust > 60000:
+            thrust = 60000
 
+                    print "Setting thrust to %i" % (self.thrust)
+
+                else:
+                    print "Bad thrust value. Enter a number or e to exit"
+
+            except:
+                print "Exception thrown! Trying to continue!", sys.exc_info()[0]
 if __name__ == '__main__':
     main()
