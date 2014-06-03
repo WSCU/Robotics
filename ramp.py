@@ -31,6 +31,8 @@ the motors and disconnects.
 """
 
 import time, sys
+import rospy
+from std_msgs.msg import String
 from threading import Thread
 
 #FIXME: Has to be launched from within the example folder
@@ -40,13 +42,14 @@ from cflib.crazyflie import Crazyflie
 
 import logging
 logging.basicConfig(level=logging.ERROR)
-
+class Data: pass
+D = Data()
 class MotorRampExample:
     """Example that connects to a Crazyflie and ramps the motors up/down and
     the disconnects"""
     def __init__(self, link_uri):
         """ Initialize and run the example with the specified link_uri """
-
+        
         self._cf = Crazyflie()
 
         self._cf.connected.add_callback(self._connected)
@@ -81,25 +84,36 @@ class MotorRampExample:
         print "Disconnected from %s" % link_uri
 
     def _ramp_motors(self):
+        global D
         thrust_mult = 1
-        thrust_step = 500
-        thrust = 20000
+        thrust_step = 200
+        thrust = 10000
         pitch = 0
         roll = 0
         yawrate = 0
-        while thrust >= 20000:
+        while thrust >= 10000 and D.running:
             self._cf.commander.send_setpoint(roll, pitch, yawrate, thrust)
             time.sleep(0.1)
-            if thrust >= 25000:
-                thrust_mult = -1
+            if thrust >= 20000:
+                thrust_mult = 0
             thrust += thrust_step * thrust_mult
         self._cf.commander.send_setpoint(0, 0, 0, 0)
         # Make sure that the last packet leaves before the link is closed
         # since the message queue is not flushed before closing
         time.sleep(0.1)
         self._cf.close_link()
-
-if __name__ == '__main__':
+    def _hold(self):
+        while True:
+            command = raw_input("q to quit: ")
+            if command == "q":
+                self._cf.commander.send_setpoint(0, 0, 0, 0)
+                quit()
+def main():
+    global D
+    D.running = True
+    rospy.init_node("crazyflie_listen", anonymous = True)
+    stream_name = "text_data"
+    rospy.Subscriber("textdata", String, callback)
     # Initialize the low-level drivers (don't list the debug drivers)
     cflib.crtp.init_drivers(enable_debug_driver=False)
     # Scan for Crazyflies and use the first one found
@@ -110,6 +124,18 @@ if __name__ == '__main__':
         print i[0]
 
     if len(available) > 0:
-        le = MotorRampExample(available[0][0])
+        D.le = MotorRampExample(available[0][0])
     else:
         print "No Crazyflies found, cannot run example"
+    rospy.spin()
+
+def callback(data):
+    global D
+    m = data.data 
+    if m == 'q':
+       #D.le._cf.commander.send_setpoint(0, 0, 0, 0)
+       D.running = False 
+       rospy.signal_shutdown("Quit requested")
+
+if __name__ == '__main__':
+    main()
