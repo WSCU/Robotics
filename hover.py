@@ -9,8 +9,10 @@ class Data: pass
     D = Data()
 
 def main():
-    rospy.Subscriber("cf_logdata", String, callback)	
-
+    rospy.Subscriber("cf_accData", AccelData, hoverCall)	
+    rospy.Subscriber("cf_stabData", StabData, hoverCall)	
+    rospy.Subscriber("cf_gyroData", GyroData, hoverCall)	
+    rospy.Subscriber("cf_motorData", MotorData, hoverCall)
 def hoverCall(data):
     global D
     m = data.data
@@ -30,4 +32,7 @@ def hoverCall(data):
 
 
 
-    D.dataPub.publish(String())
+    D.dataPub.publish(String(r roll))
+    D.dataPub.publish(String(p pitch))
+    D.dataPub.publish(String(y yaw))
+    D.dataPub.publish(String(t thrust))
