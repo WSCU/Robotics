@@ -1,3 +1,4 @@
+
 import roslib
 import rospy
 import cflib
@@ -15,16 +16,18 @@ def hoverCall(data):
     m = data.data
     print ("Received message: " + m)
     pitch,roll,thrust,gyrox,gyroy,gyroz,accx,accy,accz = m.split(" ")
-    """
+    
     if gyrox > 1 or gyrox < -1:
         roll = -gyrox * 0.2
     if gyroy > 1 or gyroy < -1:
         pitch = -gyroy * 0.2
-
+    if gyroz > 1 or gyroz < -1:
+        yaw = -gyroz * 0.2
+    if accz<-1:
+        thrust= -accz*.2
+        
 
 
 
 
     D.dataPub.publish(String())
-    """
-
