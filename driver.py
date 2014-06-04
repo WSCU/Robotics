@@ -114,7 +114,10 @@ def logdataCB(data):
     global D
     D.pitch = data["stabilizer.pitch"]
     D.roll = data["stablilizer.roll"]
-    D.logPub.publish(String("Pitch,%d Roll,%d" % (D.pitch, D.roll)))
+    D.gyrox = data["gyro.x"]
+    D.gyroy = data["gyro.y"]
+    D.gyroz = data["gyro.z"]
+    D.logPub.publish(String("Pitch,%d Roll,%d GyroX,%d GyroY,%d GyroZ,%d" % (D.pitch, D.roll, D.gyrox, D.gyroy, D.gyroz)))
     
 def main():
     global D
@@ -133,6 +136,9 @@ def main():
     D.logconf = LogConfig(name = "Logging", period_in_ms = 100)
     D.logconf.add_variable("stabilizer.pitch")
     D.logconf.add_variable("stabilizer.roll")
+    D.logconf.add_variable("gyro.x")
+    D.logconf.add_variable("gyro.y")
+    D.logconf.add_variable("gyro.z")
     D.logconf.data_received_cb.add_callback(logdataCB)
     # Initialize the low-level drivers (don't list the debug drivers)
     cflib.crtp.init_drivers(enable_debug_driver=False)
