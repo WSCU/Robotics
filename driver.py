@@ -121,7 +121,7 @@ def logdataCB(data):
     D.accx = data["acc.x"]
     D.accy = data["acc.y"]
     D.accz = data["acc.z"]
-    D.logPub.publish(String("Pitch,%d Roll,%d GyroX,%d GyroY,%d GyroZ,%d accX,%d accY,%d accZ,%d" % (D.pitch, D.roll, D.gyrox, D.gyroy, D.gyroz, D.accx, D.accy, D.accz)))
+    D.logPub.publish(String("%d %d %d %d %d %d %d %d" % (D.pitch, D.roll, D.gyrox, D.gyroy, D.gyroz, D.accx, D.accy, D.accz)))
     
 def main():
     global D
