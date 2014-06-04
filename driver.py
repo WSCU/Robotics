@@ -66,7 +66,8 @@ class MotorRampExample:
         global D
         """ This callback is called form the Crazyflie API when a Crazyflie
         has been connected and the TOCs have been downloaded."""
-        
+        if D.logconf.valid:
+            logconf.start()
         # Start a separate thread to do the motor test.
         # Do not hijack the calling thread!
         #Thread(target=self._ramp_motors).start()
@@ -117,7 +118,10 @@ def logdataCB(data):
     D.gyrox = data["gyro.x"]
     D.gyroy = data["gyro.y"]
     D.gyroz = data["gyro.z"]
-    D.logPub.publish(String("Pitch,%d Roll,%d GyroX,%d GyroY,%d GyroZ,%d" % (D.pitch, D.roll, D.gyrox, D.gyroy, D.gyroz)))
+    D.accx = data["acc.x"]
+    D.accy = data["acc.y"]
+    D.accz = data["acc.z"]
+    D.logPub.publish(String("Pitch,%d Roll,%d GyroX,%d GyroY,%d GyroZ,%d accX,%d accY%d, accZ%d" % (D.pitch, D.roll, D.gyrox, D.gyroy, D.gyroz, D.accx, D.accy, D.accz)))
     
 def main():
     global D
@@ -139,6 +143,9 @@ def main():
     D.logconf.add_variable("gyro.x")
     D.logconf.add_variable("gyro.y")
     D.logconf.add_variable("gyro.z")
+    D.logconf.add_variable("acc.x")
+    D.logconf.add_variable("acc.y")
+    D.logconf.add_variable("acc.z")
     D.logconf.data_received_cb.add_callback(logdataCB)
     # Initialize the low-level drivers (don't list the debug drivers)
     cflib.crtp.init_drivers(enable_debug_driver=False)
