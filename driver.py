@@ -114,14 +114,15 @@ class MotorRampExample:
 def logdataCB(data):
     global D
     D.pitch = data["stabilizer.pitch"]
-    D.roll = data["stablilizer.roll"]
+    D.roll = data["stabilizer.roll"]
+    D.thrust= data["stabilizer.thrust"]
     D.gyrox = data["gyro.x"]
     D.gyroy = data["gyro.y"]
     D.gyroz = data["gyro.z"]
     D.accx = data["acc.x"]
     D.accy = data["acc.y"]
     D.accz = data["acc.z"]
-    D.logPub.publish(String("%d %d %d %d %d %d %d %d" % (D.pitch, D.roll, D.gyrox, D.gyroy, D.gyroz, D.accx, D.accy, D.accz)))
+    D.logPub.publish(String("%d %d %d %d %d %d %d %d %d" % (D.pitch, D.roll, D.thrust, D.gyrox, D.gyroy, D.gyroz, D.accx, D.accy, D.accz)))
     
 def main():
     global D
@@ -140,6 +141,7 @@ def main():
     D.logconf = LogConfig(name = "Logging", period_in_ms = 100)
     D.logconf.add_variable("stabilizer.pitch")
     D.logconf.add_variable("stabilizer.roll")
+    D.logconf.add_variable("stabilizer.thrust")
     D.logconf.add_variable("gyro.x")
     D.logconf.add_variable("gyro.y")
     D.logconf.add_variable("gyro.z")
