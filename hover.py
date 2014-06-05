@@ -6,7 +6,7 @@ from std_msgs.msg import String
 from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
 import csv
-import math
+
 class Data: pass
 D = Data()
 
@@ -32,7 +32,7 @@ def accelCall(data):
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     
     if z<1:
-        thrust= int(math.abs(z)*40000)
+        thrust= int(abs(z)*40000)
         D.dataPub.publish(String("t " + str(thrust)))
     
 
