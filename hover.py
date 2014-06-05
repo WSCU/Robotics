@@ -33,10 +33,10 @@ def accelCall(data):
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     
     if z<1:
-        D.thrust= int(abs(1/z)*32000)
+        D.thrust= int(abs(1/(z))*30000)
         D.dataPub.publish(String("t " + str(D.thrust)))
     if z>1.02:
-        D.thrust-= D.thrust * (z-.9) 
+        D.thrust-= D.thrust * (z-1) 
 
 def stabCall(data):
     global D
