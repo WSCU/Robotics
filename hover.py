@@ -7,9 +7,8 @@ from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
 import csv
 import time
-class Data: pass.x
-    y = data.y
-    z = data.z
+class Data: pass
+
 D = Data()
 D.thrust = 0
 def main():
