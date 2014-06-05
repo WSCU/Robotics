@@ -27,16 +27,16 @@ def accelCall(data):
     z = data.z
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     """
-    if accz<-1:
-        thrust= -accz*.2
+    if z<-1:
+        thrust= -z*.2
         D.dataPub.publish(String("t" + str(thrust)))
     """
 
 def stabCall(data):
     global D
-    roll = data.roll
-    pitch = data.pitch
-    yaw = data.yaw
+    D.roll = data.roll
+    D.pitch = data.pitch
+    D.yaw = data.yaw
     print("Stab: (roll, pitch, yaw):" + str(roll) +","+ str(pitch) + "," + str(yaw))
     D.dataPub.publish(String("r" + str(roll)))
     D.dataPub.publish(String("p" + str(pitch)))
@@ -44,21 +44,22 @@ def stabCall(data):
     
 def gyroCall(data):
     global D
+    
     x = data.x
     y = data.y
     z = data.z
     print ("Gyro (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
-    """
-    if gyrox > 1 or gyrox < -1:
-        roll = -gyrox * 0.2
-    if gyroy > 1 or gyroy < -1:
-        pitch = -gyroy * 0.2
-    if gyroz > 1 or gyroz < -1:
-        yaw = -gyroz * 0.2
-    D.dataPub.publish(String("r" + str(roll)))
-    D.dataPub.publish(String("p" + str(pitch)))
-    D.dataPub.publish(String("y" + str(yaw)))
-    """
+    
+    if x > 1 or x < -1:
+        D.roll = -x * 0.2
+    if y > 1 or y < -1:
+        D.pitch = -y * 0.2
+    if z > 1 or z < -1:
+        D.yaw = -z * 0.2
+    D.dataPub.publish(String("r" + str(D.roll)))
+    D.dataPub.publish(String("p" + str(D.pitch)))
+    D.dataPub.publish(String("y" + str(D.yaw)))
+    
 
 def motorCall(data):
     global D
