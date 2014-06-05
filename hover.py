@@ -7,7 +7,9 @@ from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
 import csv
 import time
-class Data: pass
+class Data: pass.x
+    y = data.y
+    z = data.z
 D = Data()
 D.thrust = 0
 def main():
@@ -37,7 +39,7 @@ def accelCall(data):
         D.thrust= int(abs(1/(z))*45000)
         D.dataPub.publish(String("t " + str(D.thrust)))
     elif z<1.01:
-        D.thrust= int (D.thrust * .8) 
+        D.thrust= int (D.thrust * 0.9) 
         D.dataPub.publish(String("t " + str(D.thrust)))
     else:
         D.dataPub.publish(String("t " + str(D.thrust)))
