@@ -17,6 +17,7 @@ def main():
     rospy.Subscriber("cf_stabData", StabData, stabCall)	
     rospy.Subscriber("cf_gyroData", GyroData, gyroCall)	
     rospy.Subscriber("cf_motorData", MotorData, motorCall)
+    rospy.Subscriber("cf_textcmd", String,textCall )
     D.dataPub = rospy.Publisher("cf_textcmd", String)
     rospy.spin()
     
@@ -77,6 +78,10 @@ def motorCall(data):
     m3 = data.m3
     m4 = data.m4
     #print("Motors (1, 2, 3, 4): "+str(m1)+","+str(m2)+","+str(m3)+","+str(m4))
+    
+def textCall(data):
+    if data.data is 'q':
+        rospy.signal_shutdown("quit")
     
 if __name__ == "__main__":
     main()    
