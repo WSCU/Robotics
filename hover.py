@@ -37,10 +37,10 @@ def stabCall(data):
     D.roll = data.roll
     D.pitch = data.pitch
     D.yaw = data.yaw
-    print("Stab: (roll, pitch, yaw):" + str(roll) +","+ str(pitch) + "," + str(yaw))
-    D.dataPub.publish(String("r" + str(roll)))
-    D.dataPub.publish(String("p" + str(pitch)))
-    D.dataPub.publish(String("y" + str(yaw)))
+    print("Stab: (roll, pitch, yaw):" + str(D.roll) +","+ str(D.pitch) + "," + str(D.yaw))
+    D.dataPub.publish(String("r" + str(D.roll)))
+    D.dataPub.publish(String("p" + str(D.pitch)))
+    D.dataPub.publish(String("y" + str(D.yaw)))
     
 def gyroCall(data):
     global D
