@@ -35,10 +35,10 @@ def accelCall(data):
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     
     if z>1:
-        D.thrust= int(abs(1/(z))*45000)
+        D.thrust= int(abs(1/(z))*48000)
         D.dataPub.publish(String("t " + str(D.thrust)))
     elif z<1.01:
-        D.thrust= int (D.thrust * 0.9) 
+        D.thrust= int (D.thrust * 0.98) 
         D.dataPub.publish(String("t " + str(D.thrust)))
     else:
         D.dataPub.publish(String("t " + str(D.thrust)))
