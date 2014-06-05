@@ -9,7 +9,7 @@ import csv
 
 class Data: pass
 D = Data()
-
+D.thrust = 0
 def main():
     global D
     rospy.init_node("hover")
@@ -26,15 +26,17 @@ def accelCall(data):
     x = data.x
     y = data.y
     z = data.z
+    
     #writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
     #row = [x, y, z]
     #writer.writerow(row)
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     
     if z<1:
-        thrust= int(abs(1/z)*40000)
+        D.thrust= int(abs(1/z)*40000)
         D.dataPub.publish(String("t " + str(thrust)))
-    
+    if z>1.02:
+        D.thrust-= D.thrust * (z-1) 
 
 def stabCall(data):
     global D
