@@ -26,13 +26,13 @@ def accelCall(data):
     x = data.x
     y = data.y
     z = data.z
-    writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
-    row = [x, y, z]
-    writer.writerow(row)
+    #writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
+    #row = [x, y, z]
+    #writer.writerow(row)
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     
-    if z>1.2:
-        thrust= int(z*30000)
+    if z<1:
+        thrust= int(z*40000)
         D.dataPub.publish(String("t " + str(thrust)))
     
 
