@@ -16,7 +16,7 @@ def main():
     rospy.Subscriber("cf_stabData", StabData, stabCall)	
     rospy.Subscriber("cf_gyroData", GyroData, gyroCall)	
     rospy.Subscriber("cf_motorData", MotorData, motorCall)
-    D.dataPub = rospy.Publisher("textdata", String)
+    D.dataPub = rospy.Publisher("cf_textcmd", String)
     rospy.spin()
     
     
