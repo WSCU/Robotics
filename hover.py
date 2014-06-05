@@ -6,7 +6,7 @@ from std_msgs.msg import String
 from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
 import csv
-
+import time
 class Data: pass
 D = Data()
 D.thrust = 0
@@ -35,8 +35,8 @@ def accelCall(data):
     if z<1:
         D.thrust= int(abs(1/(z))*32000)
         D.dataPub.publish(String("t " + str(D.thrust)))
-    if z>1.02:
-        D.thrust-= D.thrust * (z-1) 
+    if z>1.01:
+        D.thrust= D.thrust * (z-1) 
 
 def stabCall(data):
     global D
@@ -44,11 +44,11 @@ def stabCall(data):
     D.pitch = data.pitch
     D.yaw = data.yaw
     #print("Stab: (roll, pitch, yaw):" + str(D.roll) +","+ str(D.pitch) + "," + str(D.yaw))
-    
+    """
     D.dataPub.publish(String("r " + str(D.roll)))
     D.dataPub.publish(String("p " + str(D.pitch)))
     D.dataPub.publish(String("y " + str(D.yaw)))
-    
+    """
 def gyroCall(data):
     global D
     
@@ -63,11 +63,11 @@ def gyroCall(data):
         D.pitch = -y * 0.2
     if z > 1 or z < -1:
         D.yaw = -z * 0.2
-    
+    """
     D.dataPub.publish(String("r " + str(D.roll)))
     D.dataPub.publish(String("p " + str(D.pitch)))
     D.dataPub.publish(String("y " + str(D.yaw)))
-    
+    """
 
 def motorCall(data):
     global D
