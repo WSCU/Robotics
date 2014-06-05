@@ -44,11 +44,11 @@ def stabCall(data):
     D.pitch = data.pitch
     D.yaw = data.yaw
     #print("Stab: (roll, pitch, yaw):" + str(D.roll) +","+ str(D.pitch) + "," + str(D.yaw))
-    """
+    
     D.dataPub.publish(String("r " + str(D.roll)))
     D.dataPub.publish(String("p " + str(D.pitch)))
     D.dataPub.publish(String("y " + str(D.yaw)))
-    """
+    
 def gyroCall(data):
     global D
     
@@ -63,11 +63,11 @@ def gyroCall(data):
         D.pitch = -y * 0.2
     if z > 1 or z < -1:
         D.yaw = -z * 0.2
-        """
+    
     D.dataPub.publish(String("r " + str(D.roll)))
     D.dataPub.publish(String("p " + str(D.pitch)))
     D.dataPub.publish(String("y " + str(D.yaw)))
-    """
+    
 
 def motorCall(data):
     global D
