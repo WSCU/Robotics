@@ -34,7 +34,7 @@ def accelCall(data):
     
     if z<1:
         D.thrust= int(abs(1/z)*40000)
-        D.dataPub.publish(String("t " + str(thrust)))
+        D.dataPub.publish(String("t " + str(D.thrust)))
     if z>1.02:
         D.thrust-= D.thrust * (z-1) 
 
