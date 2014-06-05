@@ -5,6 +5,7 @@ import cflib
 from std_msgs.msg import String
 from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
+import csv
 
 class Data: pass
 D = Data()
@@ -25,6 +26,9 @@ def accelCall(data):
     x = data.x
     y = data.y
     z = data.z
+    writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
+    row = [x, y, z]
+    writer.writerow(row)
     print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     
     if z>1.2:
