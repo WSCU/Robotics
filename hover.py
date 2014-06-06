@@ -9,7 +9,7 @@ import time
 class Data: pass
 
 D = Data()
-D.thrust = 39000
+D.thrust = 45000
 D.lastZ = None
 D.alTime = None
 D.glTime = None
@@ -45,30 +45,33 @@ def accelCall(data):
     x = data.x
     y = data.y
     z = data.z
-    if D.gyroCorrection:
-            D.time = time.time()
-            if D.lastZ is not None and D.lax is not None and D.lay is not None and D.alTime is not None:
-                D.deltaTime = D.time - D.alTime
-                D.alTime = D.time
-                
-                #D.deltaZ += z + D.lastZ * D.deltaTime
-                D.vel = D.lastZ + z * D.deltaTime
-                D.dax = D.lax + x * D.deltaTime
-                D.day = D.lay + y * D.deltaTime
-                #print("accel: %f %f" % (D.dax, D.day))
-                #print (repr(D.dax) + " " + repr(D.day))
-            #writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
-            #row = [x, y, z]
-            #writer.writerow(row)
-            print "Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z) + " " + D.deltaTime
-            if D.vel<0:
-                D.thrust= int(D.thrust*1.02)
-                D.dataPub.publish(String("t " + str(D.thrust)))
-            elif D.vel>0:
-                D.thrust= int (D.thrust * 0.98) 
-                D.dataPub.publish(String("t " + str(D.thrust)))
-            else:
-                D.dataPub.publish(String("t " + str(D.thrust)))
+    D.time = time.time()
+    if D.lastZ is not None and D.alTime is not None:
+        D.deltaTime = D.time - D.alTime
+        
+        #D.deltaZ += z + D.lastZ * D.deltaTime
+        D.vel = D.lastZ + z * D.deltaTime
+        writer = csv.writer(open("veldata.csv", "ab"), dialect = 'excel')
+        writer.writerow([D.vel])
+        D.dax = D.lax + x * D.deltaTime
+        D.day = D.lay + y * D.deltaTime
+        if D.vel<1:
+            D.thrust= int(D.thrust*1.15)
+            D.dataPub.publish(String("t " + str(D.thrust)))
+        elif D.vel>1:
+            D.thrust= int (D.thrust * 0.94) 
+            D.dataPub.publish(String("t " + str(D.thrust)))
+        else:
+            D.dataPub.publish(String("t " + str(D.thrust)))
+        #print("accel: %f %f" % (D.dax, D.day))
+        #print (repr(D.dax) + " " + repr(D.day))
+    #writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
+    #row = [x, y, z]
+    #writer.writerow(row)
+    if not D.gyroCorrection:
+        if D.lax is not None and D.lay is not None and D.alTime is not None:
+
+            print "Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z) + " " + str(D.deltaTime)
             if D.dax < 0:
                 D.pitch = 6
             elif D.dax > 0:
@@ -83,8 +86,8 @@ def accelCall(data):
             D.dataPub.publish(String("p " + str(D.pitch)))
             D.lax = x
             D.lay = y
-            D.lastZ = z
-            
+    D.lastZ = z
+    D.alTime = D.time
     D.gyroCorrection = False
 
 def stabCall(data):
@@ -97,6 +100,8 @@ def gyroCall(data):
     x = data.x
     y = data.y
     z = data.z
+    pitch = 0
+    roll = 0
     #print ("Gyro (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
     D.time = time.time()
     if D.lgx is not None and D.lgy is not None and D.lgz is not None and D.glTime is not None:
