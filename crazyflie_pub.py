@@ -3,13 +3,13 @@ import rospy
 from std_msgs.msg import String
 
 def main():
-    rospy.init_node("textdata")
-    pub = rospy.Publisher("textdata", String)
+    rospy.init_node("cf_textcmd")
+    pub = rospy.Publisher("cf_textcmd", String)
     
     while rospy.is_shutdown() == False:
         message = raw_input(":: ")
         pub.publish(String(message))
-        if message == 'q':
+        if message == 'h':
             break
     return
 
