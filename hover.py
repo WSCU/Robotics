@@ -9,7 +9,7 @@ import time
 class Data: pass
 
 D = Data()
-D.thrust = 0
+D.thrust = 39000
 D.lastZ = None
 D.alTime = None
 D.glTime = None
@@ -49,8 +49,10 @@ def accelCall(data):
             D.time = time.time()
             if D.lastZ is not None and D.lax is not None and D.lay is not None and D.alTime is not None:
                 D.deltaTime = D.time - D.alTime
+                D.alTime = D.time
+                
                 #D.deltaZ += z + D.lastZ * D.deltaTime
-                if D.vel = D.lastZ + z * D.deltaTime
+                D.vel = D.lastZ + z * D.deltaTime
                 D.dax = D.lax + x * D.deltaTime
                 D.day = D.lay + y * D.deltaTime
                 #print("accel: %f %f" % (D.dax, D.day))
@@ -58,11 +60,11 @@ def accelCall(data):
             #writer = csv.writer(open("acceldata.csv" , "ab"), dialect = 'excel')
             #row = [x, y, z]
             #writer.writerow(row)
-            print ("Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z))
-            if z>1:
-                D.thrust= int(abs(1/(z))*45000)
+            print "Accel (x, y, z): " + str(x) +","+ str(y) +","+ str(z) + " " + D.deltaTime
+            if D.vel<0:
+                D.thrust= int(D.thrust*1.02)
                 D.dataPub.publish(String("t " + str(D.thrust)))
-            elif z<1.01:
+            elif D.vel>0:
                 D.thrust= int (D.thrust * 0.98) 
                 D.dataPub.publish(String("t " + str(D.thrust)))
             else:
@@ -82,7 +84,7 @@ def accelCall(data):
             D.lax = x
             D.lay = y
             D.lastZ = z
-            D.alTime = D.time
+            
     D.gyroCorrection = False
 
 def stabCall(data):
