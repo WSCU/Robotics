@@ -50,10 +50,7 @@ def accelCall(data):
             if D.lastZ is not None and D.lax is not None and D.lay is not None and D.alTime is not None:
                 D.deltaTime = D.time - D.alTime
                 #D.deltaZ += z + D.lastZ * D.deltaTime
-                if D.vel is not None:
-                    D.vel += D.deltaTime * (z)
-                else:
-                    D.vel = D.deltaTime * (z)
+                if D.vel = D.lastZ + z * D.deltaTime
                 D.dax = D.lax + x * D.deltaTime
                 D.day = D.lay + y * D.deltaTime
                 #print("accel: %f %f" % (D.dax, D.day))
