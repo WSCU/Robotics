@@ -12,6 +12,7 @@ from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
 import csv
 import time
+import math
 
 class Data: pass
 
@@ -34,11 +35,10 @@ D.lay = 0.0
 D.dax = 0.0
 D.day = 0.0
 D.gyroCorrection = False
+D.hand = Leap.Controller
 
 class SampleListener(Leap.Listener):
     
-    # finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
-    # bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
     def on_init(self, controller):
@@ -56,9 +56,7 @@ class SampleListener(Leap.Listener):
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
-        
         frame = controller.frame()
-
         # Get hands
         for hand in frame.hands:
 
@@ -70,65 +68,34 @@ class SampleListener(Leap.Listener):
             # Get the hand's normal vector and direction
             normal = hand.palm_normal
             direction = hand.direction
-
-            # Calculate the hand's pitch, roll, and yaw angles
-            print "  pitch: %f degrees, roll: %f degrees, yaw: %f degrees" % (
-                direction.pitch * Leap.RAD_TO_DEG,
-                normal.roll * Leap.RAD_TO_DEG,
-                direction.yaw * Leap.RAD_TO_DEG)
-            D.roll = direction.roll
-            D.pitch = direction.pitch
-            D.yaw = direction.yaw
-
-        if not (frame.hands.is_empty and frame.gestures().is_empty):
-            print ""
-
-
-    # def state_string(self, state):
-    #     if state == Leap.Gesture.STATE_START:
-    #         return "STATE_START"
-
-    #     if state == Leap.Gesture.STATE_UPDATE:
-    #         return "STATE_UPDATE"
-
-    #     if state == Leap.Gesture.STATE_STOP:
-    #         return "STATE_STOP"
-
-    #     if state == Leap.Gesture.STATE_INVALID:
-    #         return "STATE_INVALID"
-def accelCall(data):
-    global D 
-    D.dataPub.publish(String("t " + str(D.roll * 100)))
-    #D.dataPub.publish(String("p " + str(D.pitch)))
-    #D.dataPub.publish(String("y " + str(D.yaw)))
-   
-def motorCall(data):
-    global D
-    m1 = data.m1
-    m2 = data.m2
-    m3 = data.m3
-    m4 = data.m4
-    #print("Motors (1, 2, 3, 4): "+str(m1)+","+str(m2)+","+str(m3)+","+str(m4))
+            D.roll = direction.roll*Leap.RAD_TO_DEG
+            D.pitch = direction.pitch*Leap.RAD_TO_DEG
+            D.yaw = direction.yaw*Leap.RAD_TO_DEG
+            D.thrust = direction.y*10000
+            #D.dataPub.publish(String("r "+str(int(abs(D.roll)))))
+            #D.dataPub.publish(String("p "+str(int(abs(D.pitch)))))
+            #D.dataPub.publish(String("y "+str(int(abs(D.yaw)))))
+            D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
+            print D.thrust
     
 def textCall(data):
     if data.data is 'q':
         rospy.signal_shutdown("quit")
+
 def main():
     global D
-    rospy.init_node("leap_pub")
-    D.dataPub = rospy.Publisher("cf_textcmd", String)
-    rospy.Subscriber("cf_accData", accelData, accelCall) 
-    rospy.Subscriber("cf_motorData", MotorData, motorCall)
-    rospy.Subscriber("cf_textcmd", String,textCall )
-
-    #rospy.spin()
     # Create a sample listener and controller
     listener = SampleListener()
     controller = Leap.Controller()
 
+    rospy.init_node("leap_pub")
+    D.dataPub = rospy.Publisher("cf_textcmd", String)
+    rospy.Subscriber("cf_textcmd", String,textCall )
+
     # Have the sample listener receive events from the controller
     controller.add_listener(listener)
     # Keep this process running until Enter is pressed
+
     print "Press Enter to quit..."
     try:
         sys.stdin.readline()
@@ -137,7 +104,6 @@ def main():
     finally:
         # Remove the sample listener when done
         controller.remove_listener(listener)
-
 
 if __name__ == "__main__":
     main()
