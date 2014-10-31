@@ -1,4 +1,4 @@
-import roslib;roslib.load_manifest('crazyflie')
+import roslib;roslib.load_manifest('crazyflie_ros')
 import rospy
 import cflib
 from std_msgs.msg import String
