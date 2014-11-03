@@ -3,11 +3,8 @@ import rospy
 from std_msgs.msg import String
 import Leap, sys, thread, time
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
-import Leap, sys, thread, time
-from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 import roslib;roslib.load_manifest('crazyflie_ros')
 import cflib
-from std_msgs.msg import String
 from crazyflie.msg import *
 from cflib.crazyflie import Crazyflie
 import csv
@@ -35,7 +32,6 @@ D.lay = 0.0
 D.dax = 0.0
 D.day = 0.0
 D.gyroCorrection = False
-D.hand = Leap.Controller
 
 class SampleListener(Leap.Listener):
     
@@ -61,21 +57,19 @@ class SampleListener(Leap.Listener):
         for hand in frame.hands:
 
             handType = "Left hand" if hand.is_left else "Right hand"
-
-           # print "position: %s" % (hand.palm_position)
-
-
             # Get the hand's normal vector and direction
             normal = hand.palm_normal
             direction = hand.direction
             D.roll = direction.roll*Leap.RAD_TO_DEG
             D.pitch = direction.pitch*Leap.RAD_TO_DEG
             D.yaw = direction.yaw*Leap.RAD_TO_DEG
+
             D.thrust = direction.y*10000
             #D.dataPub.publish(String("r "+str(int(abs(D.roll)))))
             #D.dataPub.publish(String("p "+str(int(abs(D.pitch)))))
             #D.dataPub.publish(String("y "+str(int(abs(D.yaw)))))
             D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
+
             print D.thrust
     
 def textCall(data):
