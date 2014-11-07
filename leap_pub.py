@@ -32,6 +32,7 @@ D.lay = 0.0
 D.dax = 0.0
 D.day = 0.0
 D.gyroCorrection = False
+D.time = 0
 
 class SampleListener(Leap.Listener):
     
@@ -54,6 +55,7 @@ class SampleListener(Leap.Listener):
         # Get the most recent frame and report some basic information
         frame = controller.frame()
         # Get hands
+        D.time = D.time + 1
         for hand in frame.hands:
 
             handType = "Left hand" if hand.is_left else "Right hand"
@@ -64,14 +66,14 @@ class SampleListener(Leap.Listener):
             D.pitch = direction.pitch*Leap.RAD_TO_DEG
             D.yaw = direction.yaw*Leap.RAD_TO_DEG
 
-            D.thrust = direction.y*10000
-            #D.dataPub.publish(String("r "+str(int(abs(D.roll)))))
-            #D.dataPub.publish(String("p "+str(int(abs(D.pitch)))))
-            #D.dataPub.publish(String("y "+str(int(abs(D.yaw)))))
-            D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
-
-            print D.thrust
-    
+            D.thrust = hand.fingers.frontmost.tip_position.y*350
+            # D.dataPub.publish(String("r "+str(int(max(0,D.roll)))))
+            # D.dataPub.publish(String("p "+str(int(max(0,D.pitch)))))
+            # D.dataPub.publish(String("y "+str(int(max(0,D.yaw)))))
+            if(D.time%10 == 0): 
+                D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
+                print hand.fingers.frontmost.tip_position.y
+            #print D.time
 def textCall(data):
     if data.data is 'q':
         rospy.signal_shutdown("quit")
