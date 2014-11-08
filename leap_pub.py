@@ -62,24 +62,26 @@ class SampleListener(Leap.Listener):
             # Get the hand's normal vector and direction
             normal = hand.palm_normal
             direction = hand.direction
-            D.roll = direction.roll*Leap.RAD_TO_DEG
-            D.pitch = direction.pitch*Leap.RAD_TO_DEG
-            D.yaw = direction.yaw*Leap.RAD_TO_DEG
 
+            #D.roll = hand.fingers.frontmost.tip_position.x
+            #D.pitch = hand.fingers.frontmost.tip_position.z
+            #D.yaw = hand.yaw()*Leap.RAD_TO_DEG
             D.thrust = hand.fingers.frontmost.tip_position.y*350
-            # D.dataPub.publish(String("r "+str(int(max(0,D.roll)))))
-            # D.dataPub.publish(String("p "+str(int(max(0,D.pitch)))))
-            # D.dataPub.publish(String("y "+str(int(max(0,D.yaw)))))
+            
             if(D.time%10 == 0): 
                 D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
-                print hand.fingers.frontmost.tip_position.y
-            #print D.time
+                if(D.time > 200):
+                    D.dataPub.publish(String("r "+str(int(D.roll))))
+                D.dataPub.publish(String("p "+str(int(D.pitch))))
+                #D.dataPub.publish(String("y "+str(int(max(0,D.yaw)))))
+                print D.pitch
+                #print D.thrust
+
 def textCall(data):
     if data.data is 'q':
         rospy.signal_shutdown("quit")
 
 def main():
-    global D
     # Create a sample listener and controller
     listener = SampleListener()
     controller = Leap.Controller()
