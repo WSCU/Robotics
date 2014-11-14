@@ -64,7 +64,15 @@ class SampleListener(Leap.Listener):
             direction = hand.direction
 
             #D.roll = hand.fingers.frontmost.tip_position.x
+            if hand.fingers.frontmost.tip_position.x < 0:
+                D.roll = max(hand.fingers.frontmost.tip_position.x, -10)
+            if hand.fingers.frontmost.tip_position.x > 0:
+                D.roll = min(hand.fingers.frontmost.tip_position.x, 10)
             #D.pitch = hand.fingers.frontmost.tip_position.z
+            if hand.fingers.frontmost.tip_position.z < -40:
+                D.roll = min(-hand.fingers.frontmost.tip_position.z, 10)
+            if hand.fingers.frontmost.tip_position.z > -40:
+                D.roll = max(-hand.fingers.frontmost.tip_position.z, -10)
             #D.yaw = hand.yaw()*Leap.RAD_TO_DEG
             D.thrust = hand.fingers.frontmost.tip_position.y*350
             
