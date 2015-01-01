@@ -79,11 +79,14 @@ class SampleListener(Leap.Listener):
 
             
             if(D.time%10 == 0): 
-                D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
+                if(D.thrust < 40000):
+                    D.dataPub.publish(String("t "+str(int(max(0,D.thrust)))))
                 if(D.time > 200):
                     D.dataPub.publish(String("r "+str(int(D.roll))))
                 D.dataPub.publish(String("p "+str(int(D.pitch))))
-                print D.pitch
+                print "Thrust: "+str(D.thrust)
+                print "Pitch: "+str(D.pitch)
+                print "Roll: "+str(D.roll)
 
 def textCall(data):
     if data.data is 'q':
