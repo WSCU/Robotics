@@ -10,12 +10,12 @@ def move(speedl, speedr):
     l.set(speedl)
 
 def fullfor():
-    r.set(3600)
-    l.set(3600)
+    r.set(400)
+    l.set(400)
 
 def fullback():
-    r.set(-3600)
-    l.set(-3600)
+    r.set(-400)
+    l.set(-400)
 
 def stop():
     r.stop()
