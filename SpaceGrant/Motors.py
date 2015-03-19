@@ -32,18 +32,18 @@ class Motor:
 
     def _ResetAll_():
         for motor in _AllMotors:
-            os.system('/home/pi/RobotEngine/./SmcCmd -d ' + str(motor.serialpin) + ' --stop')
-            os.system('/home/pi/RobotEngine/./SmcCmd -d ' + str(motor.serialpin) + ' --resume')
+            os.system('/home/pi/Robotics/SpaceGrant/./SmcCmd -d ' + str(motor.serialpin) + ' --stop')
+            os.system('/home/pi/Robotics/SpaceGrant/./SmcCmd -d ' + str(motor.serialpin) + ' --resume')
 
     def __init__(self, serialpin):
         self.serialpin = serialpin
-        os.system('/home/pi/RobotEngine/./SmcCmd -d ' + str(self.serialpin) + ' --resume')
+        os.system('/home/pi/Robotics/SpaceGrant/./SmcCmd -d ' + str(self.serialpin) + ' --resume')
 
     def set(self, speed): 
-        os.system('/home/pi/RobotEngine/./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(speed))
+        os.system('/home/pi/Robotics/SpaceGrant/./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(speed))
 
     def brake(self, power):
-        os.system('/home/pi/RobotEngine/./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(power))
+        os.system('/home/pi/Robotics/SpaceGrant/./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(power))
 
     def stop(self):
         self.set(0)
